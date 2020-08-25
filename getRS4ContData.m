@@ -39,7 +39,7 @@ for j=1:length(blocks)
       su_M1 = raw_M1_1.RSn1.data;
       
       % Make save directory if it dosen't exist
-      currentpath = [savepath,blockpath(52:62),'_DAT_files\M1\Channel_',num2str(ch-1),'\'];
+      currentpath = [savepath,blockNames(i).name,'_DAT_files\M1\Channel_',num2str(ch-1),'\'];
       if ~exist(currentpath,'dir')
         mkdir(currentpath);
       end
@@ -62,8 +62,8 @@ for j=1:length(blocks)
       % Extract Cb single units continous data
       su_Cb = raw_Cb.RSn1.data;
       
-      % Make save directory if it dosen't exist
-      currentpath = [savepath,blockpath(52:62),'_DAT_files\Cb\Tetrode_',num2str(tet-1),'\'];
+      % Make save directory if it dosen't exist 
+      currentpath = [savepath,blockNames(i).name,'_DAT_files\Cb\Tetrode_',num2str(tet-1),'\'];
       if ~exist(currentpath, 'dir')
         mkdir(currentpath);
       end

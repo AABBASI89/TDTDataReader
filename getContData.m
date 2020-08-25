@@ -23,8 +23,8 @@ for j=1:length(blocks)
     
     % Save concatanated continous data to a binary file
     su_Cb = su_Cb(:)';
-    if ~exist([savepath,blockpath(35:45),'-DAT-files\'], 'dir')
-      mkdir([savepath,blockpath(35:45),'-DAT-files\']);
+    if ~exist([savepath,blockNames(i).name,'-DAT-files\'], 'dir')
+      mkdir([savepath,blockNames(i).name,'-DAT-files\']);
     end
     fileID = fopen([savepath,blockpath(35:45),'-DAT-files\','SU_CONT_Cb_',num2str(i-1),'.dat'],'w');
     fwrite(fileID,su_Cb,'float32');
