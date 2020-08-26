@@ -21,7 +21,7 @@ for j=1:length(blocks)
     Fs   = data.streams.Wav1.fs;
     
     % Save 
-    savedir = [savepath,blockNames(i).name,'\'];
+    savedir = [savepath,blockNames(i).name,'\Data\'];
     if ~exist(savedir, 'dir')
       mkdir(savedir);
     end

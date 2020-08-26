@@ -78,7 +78,7 @@ for j=1:length(blocks)
       Fds = Fs/24;
       
       % Make save directory if it dosen't exist
-      currentpath = [savepath,blockNames(i).name,'_MAT_files\M1\Channel_',num2str(ch-1),'\'];
+      currentpath = [savepath,blockNames(i).name(1:11),'_MAT_files\M1\Channel_',num2str(ch-1),'\'];
       if ~exist(currentpath,'dir')
         mkdir(currentpath);
       end
@@ -142,7 +142,7 @@ for j=1:length(blocks)
       Fds = Fs/24;
       
       % Make save directory if it dosen't exist
-      currentpath = [savepath,blockNames(i).name,'_MAT_files\Cb\Channel_',num2str(tet-1),'\'];
+      currentpath = [savepath,blockNames(i).name(1:11),'_MAT_files\Cb\Channel_',num2str(tet-1),'\'];
       if ~exist(currentpath,'dir')
         mkdir(currentpath);
       end
