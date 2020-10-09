@@ -7,13 +7,14 @@ disp('running...');
 root = 'Z:\TDTData\Acute_Neuromod_New-200929-144807\';
 savepath = 'Z:\TDTData\Acute_Neuromod_New-200929-144807\';
 cd(root);
-blocks = {'I068-200929-154504','I069-200930-140540'};
+blocks = {'I071-201008-125239'}; 
+% 'I068-200929-154504','I069-200930-140540' 'I070-201006-131605'
 totChannels = 32;
 tic;
-parfor j=1:length(blocks)
+for j=1:length(blocks)
   
   blockpath = [root,blocks{j},'\'];
-  for ch = 1:totChannels
+  parfor ch = 1:totChannels
     
     disp(['reading M1 channel ', num2str(ch)]);
     
