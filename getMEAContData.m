@@ -18,7 +18,7 @@ for j=1:length(blocks)
     
     disp(['reading M1 channel ', num2str(ch)]);
     
-    % Read channel by channel M1 spikedata
+    % Read channel by channel M1 data
     output = TDTbin2mat(blockpath,'STORE','SU_1','CHANNEL',ch);
     
     % Extract M1 single units continous data
