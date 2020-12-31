@@ -3,11 +3,11 @@
 %% Read TDT blocks and save each block to a mat file
 clc; clear; close;
 disp('running...');
-root = 'C:\Users\AbbasiM\Desktop\bmi-files-mat\I061\';
+root = 'Z:\TDTData\BMI_zBus_RS4_RV2_Cb64-201130-100839\';
 cd(root);
 
-blockNames = dir('I061-200506*');
-for i = 4:length(blockNames)
+blockNames = dir('I076-201201*');
+for i = 1:length(blockNames)
   blockpath = strcat(blockNames(i).name);
   disp(blockpath);
   
@@ -53,24 +53,24 @@ for i = 4:length(blockNames)
       
     end
   end
-  if ~exist(strcat(blockpath,'\SU_CONT_Cb_Fs.mat'),'file') || ~exist(strcat(blockpath,'\SU_CONT_Cb.dat'),'file')
-    
-    % Extract and save Cb single units continous data
-    su_Cb = data.streams.SU_2.data;
-    fs = data.streams.SU_2.fs;
-    
-    % Scale su_Cb to microVolts and typecast to int16
-    for ch=1:size(su_Cb,1)
-      su_Cb_uV(ch,:) = int16(su_Cb(ch,:).*1e6);
-    end
-    
-    % Save data to files
-    save([blockpath,'\SU_CONT_Cb_Fs.mat'],'fs');
-    fileID = fopen([blockpath,'\SU_CONT_Cb.dat'],'w');
-    fwrite(fileID,su_Cb_uV,'int16');
-    fclose(fileID);
-    
-  end
+%   if ~exist(strcat(blockpath,'\SU_CONT_Cb_Fs.mat'),'file') || ~exist(strcat(blockpath,'\SU_CONT_Cb.dat'),'file')
+%     
+%     % Extract and save Cb single units continous data
+%     su_Cb = data.streams.SU_2.data;
+%     fs = data.streams.SU_2.fs;
+%     
+%     % Scale su_Cb to microVolts and typecast to int16
+%     for ch=1:size(su_Cb,1)
+%       su_Cb_uV(ch,:) = int16(su_Cb(ch,:).*1e6);
+%     end
+%     
+%     % Save data to files
+%     save([blockpath,'\SU_CONT_Cb_Fs.mat'],'fs');
+%     fileID = fopen([blockpath,'\SU_CONT_Cb.dat'],'w');
+%     fwrite(fileID,su_Cb_uV,'int16');
+%     fclose(fileID);
+%     
+%   end
   
   % snips = data.snips.eNe1;
   % if ~exist(strcat(blockpath,'\SNIPS.mat'),'file')
