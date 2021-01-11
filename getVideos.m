@@ -2,6 +2,7 @@
 %%%% This script is used for splitting the video recorded using RV2 in to trials based on the WAVE channel 
 %% Read video file and wave channels and then save every trial as a separate video file
 clc; clear; close;
+start = tic;
 disp('running...');
 root = 'E:\Aamir\BMI\';
 savepath = 'E:\Aamir\BMI\';
@@ -44,7 +45,9 @@ for j=1:length(blocks)
     writeVideo(vW,frames);
     close(vW);
   end
+  
 end
-disp('done');
+runTime = toc(start);
+disp(['done! time elapsed (minutes) - ', num2str(runTime/60)]);
 
 %%
