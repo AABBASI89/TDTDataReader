@@ -7,7 +7,7 @@ disp('running...');
 root = 'Z:\TDTData\BMI_zBus_RS4-200629-101443\raw_data_RS4\';
 savepath = 'Z:\Aamir\BMI\I064\Data\';
 cd(root);
-blocks = {'I064-200701-*','I064-200706-*'};
+blocks = {'I064-200701-*','I064-200706-*','I064-200702-*','I064-200707-*','I064-200708-*'};
 
 M1Chans = 1:32;
 CbChans = 33:64; %make this 33:96 for Cambridge prob recordings
@@ -38,7 +38,7 @@ for j=1:length(blocks)
     Wn = CutOff_freqs./fn;
     filterOrder = 2;
     [b,a] = butter(filterOrder,Wn,'high');
-    lfp_M1 = filtfilt(b,a,double(data));
+    lfp_M1 = filtfilt(b,a,double(data)');
     
     % Low pass filter
     CutOff_freqs = 300;
@@ -54,7 +54,7 @@ for j=1:length(blocks)
     lfp_M1 = filtfilt(b,a,lfp_M1);
     
     % Resample to 1kHz
-    lfp_M1_dSamp = resample(lfp_M1,1,24);
+    LFPs1 = resample(lfp_M1,1,24)';
     Fs = fs/24;
     
     % Save M1 data as mat file
@@ -68,15 +68,7 @@ for j=1:length(blocks)
     
     % Extract Cb single units continous data
     data = raw_Cb.RSn1.data;
-    
-    % --- Filtered single unit data -----------------
-    % Bandpass filter parameters
-    CutOff_freqs = [300 5000];
-    Wn = CutOff_freqs./fn;
-    filterOrder = 3;
-    [b,a] = butter(filterOrder,Wn);
-    su_Cb = filtfilt(b,a,double(data)')';
-    
+       
     % ---- Filtered LFP data -------------------------
     % High pass filter
     CutOff_freqs = 0.1;
@@ -99,7 +91,7 @@ for j=1:length(blocks)
     lfp_Cb = filtfilt(b,a,lfp_Cb)';
     
     % Resample to 1kHz
-    lfp_Cb_dSamp = resample(lfp_Cb',1,24)';
+    LFPs2 = resample(lfp_Cb',1,24)';
 
     % Save Cb data as mat file
     save([savepath,blockNames(i).name,'\LFP_Cb.mat'],...
