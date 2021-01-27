@@ -7,7 +7,8 @@ disp('running...');
 root = 'Z:\TDTData\BMI_zBus_RS4-200629-101443\raw_data_RS4\';
 savepath = 'Z:\Aamir\BMI\I064\Data\';
 cd(root);
-blocks = {'I064-200701-*','I064-200706-*','I064-200702-*','I064-200707-*','I064-200708-*'};
+blocks = {'I064-200701-*','I064-200706-*','I064-200702-*','I064-200707-*','I064-200708-*'...
+  ,'I064-200629-*','I064-200630-*'};
 
 M1Chans = 1:32;
 CbChans = 33:64; %make this 33:96 for Cambridge prob recordings
