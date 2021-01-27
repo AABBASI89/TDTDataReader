@@ -7,7 +7,7 @@ disp('running...');
 root = 'E:\Aamir\BMI\';
 savepath = 'E:\Aamir\BMI\';
 cd(root);
-blocks = {'I076\Data\I076-201205-112030\'};
+blocks = {'I076\Data\I076-201202-112106\'}; 
 for j=1:length(blocks)
   
   % Read Wave channel
