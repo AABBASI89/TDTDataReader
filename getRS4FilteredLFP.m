@@ -4,14 +4,18 @@
 %% Read TDT blocks and save each block to a mat file
 clc; clear; close;
 disp('running...');
-root = 'Z:\TDTData\BMI_zBus_RS4-200629-101443\raw_data_RS4\';
+root = 'Z:\TDTData\BMI_zBus_RS4_RV2-200629-135652\raw_data_RS4\';
 savepath = 'Z:\Aamir\BMI\I064\Data\';
 cd(root);
-blocks = {'I064-200701-*','I064-200706-*','I064-200702-*','I064-200707-*','I064-200708-*'...
-  ,'I064-200629-*','I064-200630-*'};
+blocks = {'I064-200709-*','I064-200710-*'};
 
 M1Chans = 1:32;
 CbChans = 33:64; %make this 33:96 for Cambridge prob recordings
+nSubsetChans = 4;
+filterOrder1 = 2;
+filterOrder2 = 4;
+CutOff_freq_low = 0.1;
+CutOff_freq_high = 300;
 tic;
 for j=1:length(blocks)
   blockNames = dir([root,blocks{j}]);
@@ -33,29 +37,34 @@ for j=1:length(blocks)
     % Get Nyquist frequency
     fn = fs/2;
     
-    % ---- Filtered LFP data ----
-    % High pass filter
-    CutOff_freqs = 0.1;
-    Wn = CutOff_freqs./fn;
-    filterOrder = 2;
-    [b,a] = butter(filterOrder,Wn,'high');
-    lfp_M1 = filtfilt(b,a,double(data)');
+    LFPs1 = [];
+    for h=1:nSubsetChans:size(data,1)
+        % Take only a subset of channels for filtering (to avoid running
+        % out of memory 
+        d = data(h:h+3,:);
+        
+        % ---- Filtered LFP data ----
+        % High pass filter
+        Wn = CutOff_freq_low/fn;
+        [b,a] = butter(filterOrder1,Wn,'high');
+        lfp_M1 = filtfilt(b,a,double(d)');
+        
+        % Low pass filter
+        Wn = CutOff_freq_high/fn;
+        [b,a] = butter(filterOrder2,Wn,'low');
+        lfp_M1 = filtfilt(b,a,lfp_M1);
+        
+        % Notch filter parameters to remove 60Hz line noise
+        d = designfilt('bandstopiir','FilterOrder',2, ...
+            'HalfPowerFrequency1',59.9,'HalfPowerFrequency2',60.1, ...
+            'DesignMethod','butter','SampleRate',fs);
+        lfp_M1 = filtfilt(d,lfp_M1);
+        
+        % Resample to 1kHz
+        LFPs1 = [LFPs1; resample(lfp_M1,1,24)'];
+    end
     
-    % Low pass filter
-    CutOff_freqs = 300;
-    Wn = CutOff_freqs./fn;
-    filterOrder = 4;
-    [b,a] = butter(filterOrder,Wn,'low');
-    lfp_M1 = filtfilt(b,a,lfp_M1);
-    
-    % Notch filter parameters to remove 60Hz line noise
-    d = designfilt('bandstopiir','FilterOrder',2, ...
-      'HalfPowerFrequency1',59.9,'HalfPowerFrequency2',60.1, ...
-      'DesignMethod','butter','SampleRate',fs);
-    lfp_M1 = filtfilt(b,a,lfp_M1);
-    
-    % Resample to 1kHz
-    LFPs1 = resample(lfp_M1,1,24)';
+    % Downsampled freq
     Fs = fs/24;
     
     % Save M1 data as mat file
@@ -69,30 +78,33 @@ for j=1:length(blocks)
     
     % Extract Cb single units continous data
     data = raw_Cb.RSn1.data;
-       
-    % ---- Filtered LFP data -------------------------
-    % High pass filter
-    CutOff_freqs = 0.1;
-    Wn = CutOff_freqs./fn;
-    filterOrder = 3;
-    [b,a] = butter(filterOrder,Wn,'high');
-    lfp_Cb = filtfilt(b,a,double(data)');
-    
-    % Low pass filter
-    CutOff_freqs = 300;
-    Wn = CutOff_freqs./fn;
-    filterOrder = 3;
-    [b,a] = butter(filterOrder,Wn,'low');
-    lfp_Cb = filtfilt(b,a,lfp_Cb);
-    
-    % Notch filter parameters to remove 60Hz line noise
-    d = designfilt('bandstopiir','FilterOrder',2, ...
-      'HalfPowerFrequency1',59.9,'HalfPowerFrequency2',60.1, ...
-      'DesignMethod','butter','SampleRate',fs);
-    lfp_Cb = filtfilt(b,a,lfp_Cb)';
-    
-    % Resample to 1kHz
-    LFPs2 = resample(lfp_Cb',1,24)';
+
+    LFPs2 = [];
+    for h=1:nSubsetChans:size(data,1)
+        % Take only a subset of channels for filtering (to avoid running
+        % out of memory 
+        d = data(h:h+3,:);
+        
+        % ---- Filtered LFP data ----
+        % High pass filter
+        Wn = CutOff_freq_low/fn;
+        [b,a] = butter(filterOrder1,Wn,'high');
+        lfp_Cb = filtfilt(b,a,double(d)');
+        
+        % Low pass filter
+        Wn = CutOff_freq_high/fn;
+        [b,a] = butter(filterOrder2,Wn,'low');
+        lfp_Cb = filtfilt(b,a,lfp_Cb);
+        
+        % Notch filter parameters to remove 60Hz line noise
+        d = designfilt('bandstopiir','FilterOrder',2, ...
+            'HalfPowerFrequency1',59.9,'HalfPowerFrequency2',60.1, ...
+            'DesignMethod','butter','SampleRate',fs);
+        lfp_Cb = filtfilt(d,lfp_Cb)';
+        
+        % Resample to 1kHz
+        LFPs2 = [LFPs2,resample(lfp_Cb',1,24)'];
+    end
 
     % Save Cb data as mat file
     save([savepath,blockNames(i).name,'\LFP_Cb.mat'],...
