@@ -100,10 +100,10 @@ for j=1:length(blocks)
         d = designfilt('bandstopiir','FilterOrder',2, ...
             'HalfPowerFrequency1',59.9,'HalfPowerFrequency2',60.1, ...
             'DesignMethod','butter','SampleRate',fs);
-        lfp_Cb = filtfilt(d,lfp_Cb)';
+        lfp_Cb = filtfilt(d,lfp_Cb);
         
         % Resample to 1kHz
-        LFPs2 = [LFPs2,resample(lfp_Cb',1,24)'];
+        LFPs2 = [LFPs2,resample(lfp_Cb,1,24)'];
     end
 
     % Save Cb data as mat file
