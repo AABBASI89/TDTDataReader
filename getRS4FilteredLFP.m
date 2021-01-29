@@ -4,10 +4,11 @@
 %% Read TDT blocks and save each block to a mat file
 clc; clear; close;
 disp('running...');
-root = 'Z:\TDTData\BMI_zBus_RS4_RV2-200629-135652\raw_data_RS4\';
+root = 'Z:\TDTData\BMI_zBus_RS4-200629-101443\raw_data_RS4\';
 savepath = 'Z:\Aamir\BMI\I064\Data\';
 cd(root);
-blocks = {'I064-200709-*','I064-200710-*'};
+blocks = {'I064-200701-*','I064-200706-*','I064-200702-*','I064-200707-*'...
+    'I064-200708-*','I064-200629-*','I064-200630-*'};
 
 M1Chans = 1:32;
 CbChans = 33:64; %make this 33:96 for Cambridge prob recordings
@@ -55,10 +56,10 @@ for j=1:length(blocks)
         lfp_M1 = filtfilt(b,a,lfp_M1);
         
         % Notch filter parameters to remove 60Hz line noise
-        d = designfilt('bandstopiir','FilterOrder',2, ...
+        n = designfilt('bandstopiir','FilterOrder',2, ...
             'HalfPowerFrequency1',59.9,'HalfPowerFrequency2',60.1, ...
             'DesignMethod','butter','SampleRate',fs);
-        lfp_M1 = filtfilt(d,lfp_M1);
+        lfp_M1 = filtfilt(n,lfp_M1);
         
         % Resample to 1kHz
         LFPs1 = [LFPs1; resample(lfp_M1,1,24)'];
@@ -97,13 +98,13 @@ for j=1:length(blocks)
         lfp_Cb = filtfilt(b,a,lfp_Cb);
         
         % Notch filter parameters to remove 60Hz line noise
-        d = designfilt('bandstopiir','FilterOrder',2, ...
+        n = designfilt('bandstopiir','FilterOrder',2, ...
             'HalfPowerFrequency1',59.9,'HalfPowerFrequency2',60.1, ...
             'DesignMethod','butter','SampleRate',fs);
-        lfp_Cb = filtfilt(d,lfp_Cb);
+        lfp_Cb = filtfilt(n,lfp_Cb);
         
         % Resample to 1kHz
-        LFPs2 = [LFPs2,resample(lfp_Cb,1,24)'];
+        LFPs2 = [LFPs2; resample(lfp_Cb,1,24)'];
     end
 
     % Save Cb data as mat file
