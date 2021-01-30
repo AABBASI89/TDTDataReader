@@ -18,7 +18,7 @@ blocks = { 'I076\Data\I076-201201-120931\'...
           ,'I076\Data\I076-201205-112030\'...
           ,'I076\Data\I076-201205-125511\'}; 
           
-for j=6%7:length(blocks)
+for j=1:length(blocks)
   
   % display current block
   disp(blocks{j});
