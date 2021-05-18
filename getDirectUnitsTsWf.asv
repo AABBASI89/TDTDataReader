@@ -4,13 +4,13 @@
 %  -----------------------------------------------------------------------------------
 %% Read spike times and waveforms 
 clear;clc;close all; tic;
-path = 'Z:\TDTData\BMI_zBus_RS4_RV2_Cb64-201130-100839\'; % For I076
+% path = 'Z:\TDTData\BMI_zBus_RS4_RV2_Cb64-201130-100839\'; % For I076
 % path = 'Z:\TDTData\BMI_zBus_RS4-200629-101443\'; % For I064
 % path = 'Z:\TDTData\BMI_zBus-200310-092524\'; % For I061 and I060
-% path = 'Z:\TDTData\BMI_Cedars-191216-135822\'; % For I050 
-savepath = 'Z:\Aamir\BMI\I086\Data\';
+path = 'Z:\TDTData\BMI_Cedars-191216-135822\'; % For I050 
+savepath = 'Z:\Aamir\BMI\I050\Data\';
 % sessions = {'I050-191218-*','I050-191219-*','I050-191220-*','I050-191221-*','I050-191223-*'};
-sessions = {'I086-210507-*','I086-210511-*','I086-210512-*','I086-210513-*','I086-210514-*'};
+sessions = {'I086-210512-*'};
 % List of Tp and Tn for I076
 % Tp_chs = {25, 9,[2,24,27],[5,7,11,28],[10,16,21,32]};
 % Tn_chs = {27,16,[],[],[]};
@@ -32,10 +32,10 @@ sessions = {'I086-210507-*','I086-210511-*','I086-210512-*','I086-210513-*','I08
 % Tn_chs = {[],[],[],[],[]};
 
 % List of Tp and Tn for I086
-Tp_chs = {15,10,8,6,4};
-Tn_chs = {[],[],[],[],18};
+Tp_chs = {8};
+Tn_chs = {[]};
 
-for i = 5:length(sessions)
+for i = 1:length(sessions)
     blocks = dir([path,sessions{i}]);
     for b = 1:length(blocks)
         disp(['Block: ',blocks(b).name]);  
