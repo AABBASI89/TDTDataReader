@@ -87,6 +87,7 @@ for j=1:length(blocks)
       fclose(fileID);
     end    
     
+    clear su_M1 su_Cb
   end
 end
 runTime = toc(start);
