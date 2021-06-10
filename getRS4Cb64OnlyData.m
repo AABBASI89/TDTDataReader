@@ -20,7 +20,7 @@ polytrode_grps = [[21 17 53 18 57 22 23 30 55 61 32 63 59 19 20 28]; % Polytrode
 start = tic;
 for j=1:length(blocks)
   blockNames = dir([root,blocks{j}]);
-  for i = 1:length(blockNames)
+  parfor i = 1:length(blockNames)
     blockpath = [root,blockNames(i).name,'\'];
     disp(blockpath);
     
