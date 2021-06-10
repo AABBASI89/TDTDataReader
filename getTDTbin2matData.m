@@ -6,7 +6,7 @@ disp('running...');
 root = 'Z:\TDTData\BMI_zBus_RS4_RV2_Cb64-201130-100839\';
 cd(root);
 
-blockNames = dir('I086-210514-*');
+blockNames = dir('I086-210506-*');
 for i = 1:length(blockNames)
   blockpath = strcat(blockNames(i).name);
   disp(blockpath);
