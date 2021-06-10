@@ -11,7 +11,7 @@ addpath(genpath('C:\Users\AbbasiM\Documents\MATLAB\TDTDataReader-master\'));
 root = 'Z:\TDTData\BMI_zBus_RS4_RV2_Cb64-201130-100839\raw_data_RS4\'; 
 savepath = 'Z:\TDTData\BMI_zBus_RS4_RV2_Cb64-201130-100839\raw_data_RS4\';
 cd(root);
-blocks = {'I086-210506-*','I086-210507-*','I086-210511-*','I086-210512-*','I086-210513-*','I086-210514-*'};  
+blocks = {'I086-210505-*','I086-210506-*','I086-210507-*','I086-210511-*','I086-210512-*','I086-210513-*','I086-210514-*'};  
 totPolytrodes  = 4;
 polytrode_grps = [[21 17 53 18 57 22 23 30 55 61 32 63 59 19 20 28]; % Polytrode 0
                   [27 26 52 49 48 25 50 58 54 62 56 29 60 24 51 64]; % Polytrode 1
