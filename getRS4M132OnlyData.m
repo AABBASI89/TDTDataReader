@@ -6,14 +6,15 @@
 %  64 channels Cambridge polytrodes in Cb [Chans 33-96]
 clc; clear; close;
 disp('running...');
+addpath(genpath('C:\Users\FleischerP\Documents\MATLAB\TDTDataReader-master\'));
 % Change root and save paths along with blocks as needed!
-root = 'Z:\TDTData\BMI_zBus_RS4_RV2_Cb64-201130-100839\raw_data_RS4\'; 
-savepath = 'Z:\TDTData\BMI_zBus_RS4_RV2_Cb64-201130-100839\raw_data_RS4\';
+root = 'Z:\M1_Cb_Reach\I086\RS4_Data\'; 
+savepath = 'Z:\M1_Cb_Reach\I086\RS4_Data\';
 cd(root);
-blocks = {'I076-201201-*','I076-201202-*','I076-201203-*'};
+blocks = {'I086-210517-*','I086-210518-*','I086-210519-*','I086-210520-*','I086-210521-*'};
 totChannels_m1 = 32;  
 start = tic;
-for j=1:length(blocks)
+for j=4%1:length(blocks)
   blockNames = dir([root,blocks{j}]);
   for i = 1:length(blockNames)
     blockpath = [root,blockNames(i).name,'\'];
@@ -38,7 +39,7 @@ for j=1:length(blocks)
             mkdir(currentpath);
         end        
         % Save continous M1 data to a binary file
-        M1_DAT = su_M1(ch);
+        M1_DAT = su_M1(ch,:);
         fileID = fopen([currentpath,'SU_CONT_M1_Ch_',num2str(ch-1),'_',num2str(i-1),'.dat'],'w');
         fwrite(fileID,M1_DAT,'float32');
         fclose(fileID);
