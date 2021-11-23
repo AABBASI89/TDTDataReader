@@ -13,18 +13,18 @@ savepath = 'Z:\TDTData\BMI_zBus_RS4_RV2_Cb64-201130-100839\raw_data_RS4\';
 cd(root);
 blocks = {'I086-210505-*','I086-210506-*','I086-210507-*','I086-210511-*','I086-210512-*','I086-210513-*','I086-210514-*'};  
 totPolytrodes  = 4;
-polytrode_grps = [[21 17 53 18 57 22 23 30 55 61 32 63 59 19 20 28]; % Polytrode 0
-                  [27 26 52 49 48 25 50 58 54 62 56 29 60 24 51 64]; % Polytrode 1
-                  [5 8 44 47 1 7 31 40 42 36 46 3 38 10 45 34];      % Polytrode 2
-                  [11 15 43 16 39 12 9 4 41 35 2 33 37 13 14 6]];    % Polytrode 3
+polytrode_grps = [[49 52 43 53 51 41 38 46 48 59 33 64 56 54 61 44]; % Polytrode 0
+                  [60 57 39 35 31 62 34 50 42 58 47 37 55 36 40 63]; % Polytrode 1
+                  [22 17 23 32 8 21 45 15 18 7 26 12 10 14 27 3];      % Polytrode 2
+                  [28 29 24 20 16 1 13 5 19 9 4 2 11 30 25 6]];    % Polytrode 3
 start = tic;
 for j=1:length(blocks)
   blockNames = dir([root,blocks{j}]);
-  parfor i = 1:length(blockNames)
+  for i = 1:length(blockNames)
     blockpath = [root,blockNames(i).name,'\'];
     disp(blockpath);
     
-    for ch = 1:totPolytrodes
+    parfor ch = 1:totPolytrodes
           
       % Read Cb raw data from RS4 .sev files (Cb channels are saved as ch 33-96 by RS4)
       raw_Cb = SEV2mat(blockpath,'CHANNEL', polytrode_grps(ch,:)+32);
